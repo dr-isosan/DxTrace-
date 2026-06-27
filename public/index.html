@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>DxTrace — Klinik Karar Destek Platformu</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--surface:#111827;--card:#1a2235;--border:#1e2d45;
+  --blue:#3b82f6;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--purple:#8b5cf6;
+  --text:#e2e8f0;--muted:#64748b;--accent:#06b6d4;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+header{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-bottom:1px solid var(--border);padding:0 2rem}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:700;color:#fff}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.tagline{font-size:.75rem;color:var(--muted);font-weight:400}
+.status-dot{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--green)}
+.dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* LAYOUT */
+.container{max-width:1400px;margin:0 auto;padding:1.5rem 2rem}
+.grid{display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem}
+.card-title{font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.card-title svg{opacity:.7}
+
+/* ANALYZE BUTTON */
+.btn-analyze{width:100%;padding:14px;background:linear-gradient(135deg,var(--blue),var(--accent));border:none;border-radius:10px;color:#fff;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:.5rem}
+.btn-analyze:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,130,246,.4)}
+.btn-analyze:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.btn-sm{padding:6px 14px;border-radius:7px;border:none;font-size:.8rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn-approve{background:#10b981;color:#fff}
+.btn-edit{background:#f59e0b;color:#000}
+.btn-reject{background:#ef4444;color:#fff}
+.btn-sm:hover{filter:brightness(1.1)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:.7rem;font-weight:600}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.badge-green{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.badge-yellow{background:rgba(245,158,11,.15);color:var(--yellow);border:1px solid rgba(245,158,11,.3)}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.badge-purple{background:rgba(139,92,246,.15);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
+.badge-gray{background:rgba(100,116,139,.15);color:var(--muted);border:1px solid rgba(100,116,139,.3)}
+
+/* SCORE BAR */
+.score-bar{height:4px;border-radius:2px;background:var(--border);margin-top:4px}
+.score-fill{height:100%;border-radius:2px;transition:.6s ease}
+
+/* EVIDENCE ITEM */
+.ev-item{padding:.75rem;background:var(--surface);border-radius:8px;margin-bottom:.5rem;border-left:3px solid var(--border)}
+.ev-item.lab{border-color:var(--blue)}
+.ev-item.symptom{border-color:var(--yellow)}
+.ev-item.radiology{border-color:var(--red)}
+.ev-item.risk_factor{border-color:var(--muted)}
+.ev-item.family_history{border-color:var(--purple)}
+.ev-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.ev-key{font-size:.78rem;font-weight:500;color:var(--text)}
+.ev-val{font-size:.72rem;color:var(--muted);margin-top:2px}
+.score-num{font-size:.85rem;font-weight:700;min-width:28px;text-align:right}
+
+/* CONFLICT */
+.conflict-item{padding:.75rem;background:var(--surface);border-radius:8px;margin-bottom:.5rem;border-left:3px solid var(--red)}
+.conflict-item.medium{border-color:var(--yellow)}
+.conflict-desc{font-size:.78rem;color:var(--text);line-height:1.5}
+
+/* FOLLOWUP */
+.followup-item{display:flex;align-items:center;justify-content:space-between;padding:.6rem .75rem;background:var(--surface);border-radius:8px;margin-bottom:.5rem}
+.followup-days{font-size:.72rem;color:var(--muted)}
+
+/* CAS SIGNAL */
+.cas-box{background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(245,158,11,.1));border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:1rem}
+.cas-id{font-size:1.1rem;font-weight:700;color:var(--red);margin-bottom:.5rem}
+.cas-criteria{display:flex;gap:.5rem;margin:.5rem 0}
+.crit{width:28px;height:28px;border-radius:6px;background:rgba(239,68,68,.2);border:1px solid var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:var(--red)}
+.cas-msg{font-size:.78rem;color:var(--text);line-height:1.6;margin-top:.5rem}
+.cas-disclaimer{font-size:.7rem;color:var(--muted);margin-top:.5rem;font-style:italic}
+
+/* SUMMARY */
+.summary-text{font-size:.85rem;line-height:1.7;color:var(--text);background:var(--surface);border-radius:8px;padding:1rem}
+
+/* FEEDBACK */
+.feedback-input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:.75rem;font-size:.82rem;font-family:inherit;resize:vertical;margin:.5rem 0}
+.feedback-input:focus{outline:none;border-color:var(--blue)}
+.feedback-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.feedback-result{margin-top:.75rem;background:var(--surface);border-radius:8px;padding:.75rem;font-size:.78rem;display:none}
+.diff-add{color:var(--green)}
+.diff-rem{color:var(--red);text-decoration:line-through}
+
+/* LLM */
+.llm-result{font-size:.82rem;line-height:1.7;background:var(--surface);border-radius:8px;padding:1rem;margin-top:.75rem;display:none}
+.llm-badge{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+
+/* MISSING */
+.missing-item{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;background:var(--surface);border-radius:8px;margin-bottom:.4rem;font-size:.78rem}
+
+/* TIMELINE */
+.tl-list{max-height:260px;overflow-y:auto;padding-right:4px}
+.tl-item{display:flex;gap:10px;margin-bottom:.6rem;align-items:flex-start}
+.tl-dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.tl-dot.blue{background:var(--blue)}
+.tl-dot.yellow{background:var(--yellow)}
+.tl-dot.red{background:var(--red)}
+.tl-dot.gray{background:var(--muted)}
+.tl-date{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.tl-content{font-size:.75rem;color:var(--text)}
+
+/* LOADER */
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMPTY */
+.empty{text-align:center;color:var(--muted);font-size:.82rem;padding:2rem 0}
+.empty-icon{font-size:2rem;margin-bottom:.5rem}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:1rem;background:var(--surface);padding:4px;border-radius:9px}
+.tab{flex:1;padding:6px;text-align:center;font-size:.78rem;font-weight:500;border-radius:7px;cursor:pointer;color:var(--muted);transition:.15s;border:none;background:transparent}
+.tab.active{background:var(--card);color:var(--text)}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.section-sep{height:1px;background:var(--border);margin:1.25rem 0}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🔬</div>
+      <div>
+        DxTrace
+        <div class="tagline">Kanıta Kilitli Klinik Karar Destek</div>
+      </div>
+    </div>
+    <div class="status-dot"><div class="dot"></div> API Bağlantısı Aktif</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="grid">
+
+    <!-- LEFT PANEL -->
+    <div>
+      <!-- Analiz -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">⚡ Vaka Analizi</div>
+        <div style="font-size:.8rem;color:var(--muted);margin-bottom:.75rem">Sentetik vaka <code style="color:var(--accent)">case_001</code> — tüm motorlar çalıştırılır</div>
+        <button class="btn-analyze" id="btnAnalyze" onclick="analyzeCase()">
+          <span id="btnTxt">Vakayı Analiz Et</span>
+          <div class="spinner" id="spinner" style="display:none"></div>
+        </button>
+      </div>
+
+      <!-- Modules status -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">🧩 Aktif Modüller</div>
+        <div id="moduleStatus">
+          <div class="missing-item"><span>confidenceScorer</span><span class="badge badge-gray">Bekliyor</span></div>
+          <div class="missing-item"><span>contradictionEngine</span><span class="badge badge-gray">Bekliyor</span></div>
+          <div class="missing-item"><span>followupTracker</span><span class="badge badge-gray">Bekliyor</span></div>
+          <div class="missing-item"><span>riskSignalEngine</span><span class="badge badge-gray">Bekliyor</span></div>
+          <div class="missing-item"><span>verifierAgent</span><span class="badge badge-gray">Bekliyor</span></div>
+          <div class="missing-item"><span>missingDataDetector</span><span class="badge badge-gray">Bekliyor</span></div>
+        </div>
+      </div>
+
+      <!-- Doktor Geri Bildirim -->
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-title">👨‍⚕️ Doktor Geri Bildirimi</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem">AI çıktısı:</div>
+        <textarea class="feedback-input" id="prevContent" rows="2">AI ürettiği klinik özet metni</textarea>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:.5rem">Doktor düzenlemesi:</div>
+        <textarea class="feedback-input" id="finalContent" rows="2">Doktorun onayladığı / düzenlediği metin</textarea>
+        <div class="feedback-actions">
+          <button class="btn-sm btn-approve" onclick="submitFeedback('APPROVE')">✓ Onayla</button>
+          <button class="btn-sm btn-edit" onclick="submitFeedback('EDIT')">✏ Düzenle</button>
+          <button class="btn-sm btn-reject" onclick="submitFeedback('REJECT')">✗ Reddet</button>
+        </div>
+        <div class="feedback-result" id="feedbackResult"></div>
+      </div>
+
+      <!-- LLM -->
+      <div class="card">
+        <div class="card-title">🤖 LLM Özet Üret</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:.75rem">Verifier Agent ile halüsinasyon korumalı</div>
+        <button class="btn-analyze" style="background:linear-gradient(135deg,var(--purple),#6366f1)" onclick="generateLLM()">
+          <span id="llmBtnTxt">Özet Üret</span>
+          <div class="spinner" id="llmSpinner" style="display:none"></div>
+        </button>
+        <div class="llm-result" id="llmResult"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div>
+      <div id="emptyState" class="card" style="text-align:center;padding:3rem">
+        <div style="font-size:3rem;margin-bottom:1rem">🏥</div>
+        <div style="font-size:1rem;font-weight:600;margin-bottom:.5rem">DxTrace Dashboard</div>
+        <div style="font-size:.85rem;color:var(--muted);line-height:1.6">
+          Sol panelden <strong>"Vakayı Analiz Et"</strong> butonuna basarak<br/>
+          tüm klinik motorları çalıştırın.
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap">
+          <span class="badge badge-blue">Confidence Scorer</span>
+          <span class="badge badge-red">Contradiction Engine</span>
+          <span class="badge badge-yellow">Followup Tracker</span>
+          <span class="badge badge-purple">Risk Signal Engine</span>
+        </div>
+      </div>
+
+      <div id="results" style="display:none">
+
+        <!-- Clinical Summary -->
+        <div class="card" style="margin-bottom:1rem">
+          <div class="card-title">📋 Klinik Özet <span id="llmStatusBadge"></span></div>
+          <div class="summary-text" id="clinicalSummary"></div>
+        </div>
+
+        <!-- CAS Signal -->
+        <div id="casSection" style="display:none;margin-bottom:1rem">
+          <div class="card">
+            <div class="card-title">🚨 Erken Klinik Dikkat Sinyali</div>
+            <div id="casContent"></div>
+          </div>
+        </div>
+
+        <!-- Tabs: Evidence / Conflicts / Followups / Missing / Timeline -->
+        <div class="card">
+          <div class="tabs">
+            <button class="tab active" onclick="switchTab('evidence',this)">Kanıtlar</button>
+            <button class="tab" onclick="switchTab('conflicts',this)">Çelişkiler</button>
+            <button class="tab" onclick="switchTab('followups',this)">Takip</button>
+            <button class="tab" onclick="switchTab('missing',this)">Eksik</button>
+            <button class="tab" onclick="switchTab('timeline',this)">Zaman</button>
+          </div>
+
+          <!-- Evidence -->
+          <div class="tab-pane active" id="tab-evidence">
+            <div class="card-title">🧪 Kanıt Listesi & Güven Skorları</div>
+            <div id="evidenceList"></div>
+          </div>
+
+          <!-- Conflicts -->
+          <div class="tab-pane" id="tab-conflicts">
+            <div class="card-title">⚡ Çelişki Tespiti</div>
+            <div id="conflictList"></div>
+          </div>
+
+          <!-- Followups -->
+          <div class="tab-pane" id="tab-followups">
+            <div class="card-title">🔁 Takip & Açık Döngüler</div>
+            <div id="followupList"></div>
+          </div>
+
+          <!-- Missing -->
+          <div class="tab-pane" id="tab-missing">
+            <div class="card-title">⚠️ Eksik / Bayat Veriler</div>
+            <div id="missingList"></div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="tab-pane" id="tab-timeline">
+            <div class="card-title">📅 Zaman Çizelgesi</div>
+            <div class="tl-list" id="timelineList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = 'http://localhost:3000';
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function scoreColor(s) {
+  if (s >= 60) return '#10b981';
+  if (s >= 30) return '#f59e0b';
+  return '#ef4444';
+}
+
+function catClass(cat) {
+  return cat || 'risk_factor';
+}
+
+async function analyzeCase() {
+  const btn = document.getElementById('btnAnalyze');
+  btn.disabled = true;
+  document.getElementById('btnTxt').textContent = 'Analiz ediliyor...';
+  document.getElementById('spinner').style.display = 'block';
+
+  try {
+    const res = await fetch(API + '/cases/analyze', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({caseId:'case_001'})
+    });
+    const data = await res.json();
+    renderResults(data);
+  } catch(e) {
+    alert('Sunucuya bağlanılamadı. npm run dev çalışıyor mu?');
+  } finally {
+    btn.disabled = false;
+    document.getElementById('btnTxt').textContent = 'Tekrar Analiz Et';
+    document.getElementById('spinner').style.display = 'none';
+  }
+}
+
+function renderResults(data) {
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  // Module status
+  const mods = document.getElementById('moduleStatus');
+  const ok = '<span class="badge badge-green">✓ Aktif</span>';
+  mods.innerHTML = [
+    ['confidenceScorer', data.evidence?.length > 0],
+    ['contradictionEngine', data.conflicts?.length >= 0],
+    ['followupTracker', data.followups?.length >= 0],
+    ['riskSignalEngine', data.earlySignals?.length >= 0],
+    ['verifierAgent', data.llmStatus != null],
+    ['missingDataDetector', data.missingData?.length >= 0],
+  ].map(([name, active]) =>
+    `<div class="missing-item"><span>${name}</span>${active ? ok : '<span class="badge badge-gray">—</span>'}</div>`
+  ).join('');
+
+  // Summary
+  document.getElementById('clinicalSummary').textContent = data.clinicalSummary || '—';
+  const statusBadge = data.llmStatus === 'VERIFIED'
+    ? '<span class="badge badge-green" style="margin-left:.5rem">✓ VERIFIED</span>'
+    : '<span class="badge badge-red" style="margin-left:.5rem">✗ REJECTED</span>';
+  document.getElementById('llmStatusBadge').innerHTML = statusBadge;
+
+  // CAS Signals
+  if (data.earlySignals?.length > 0) {
+    document.getElementById('casSection').style.display = 'block';
+    document.getElementById('casContent').innerHTML = data.earlySignals.map(s => `
+      <div class="cas-box">
+        <div class="cas-id">${s.signalId}</div>
+        <div class="cas-criteria">${(s.metCriteria||[]).map(c=>`<div class="crit">${c}</div>`).join('')}</div>
+        <div class="cas-msg">${s.message}</div>
+        <div class="cas-disclaimer">${s.disclaimer||''}</div>
+      </div>
+    `).join('');
+  }
+
+  // Evidence
+  document.getElementById('evidenceList').innerHTML = (data.evidence||[]).map(ev => {
+    const sc = ev.confidenceScore || 0;
+    return `
+    <div class="ev-item ${catClass(ev.category)}">
+      <div class="ev-row">
+        <div><div class="ev-key">${ev.clinicalKey?.replace(/_/g,' ')} <span class="badge badge-gray" style="font-size:.65rem">${ev.sourceId}</span></div>
+        <div class="ev-val">${ev.value} ${ev.unit||''}</div></div>
+        <div class="score-num" style="color:${scoreColor(sc)}">${sc}</div>
+      </div>
+      <div class="score-bar"><div class="score-fill" style="width:${sc}%;background:${scoreColor(sc)}"></div></div>
+    </div>`;
+  }).join('') || '<div class="empty"><div class="empty-icon">🔍</div>Kanıt bulunamadı</div>';
+
+  // Conflicts
+  document.getElementById('conflictList').innerHTML = (data.conflicts||[]).map(c => `
+    <div class="conflict-item ${c.severity}">
+      <div class="ev-row" style="margin-bottom:.4rem">
+        <span class="badge badge-${c.severity==='high'?'red':'yellow'}">${c.severity?.toUpperCase()}</span>
+        <span style="font-size:.7rem;color:var(--muted)">${c.conflictId}</span>
+      </div>
+      <div class="conflict-desc">${c.description}</div>
+    </div>
+  `).join('') || '<div class="empty"><div class="empty-icon">✅</div>Çelişki tespit edilmedi</div>';
+
+  // Followups
+  document.getElementById('followupList').innerHTML = (data.followups||[]).map(f => `
+    <div class="followup-item">
+      <div>
+        <div style="font-size:.8rem;font-weight:500">${f.label}</div>
+        <div class="followup-days">${f.message}</div>
+      </div>
+      <span class="badge badge-${f.status==='OPEN'?'red':'green'}">${f.status}</span>
+    </div>
+  `).join('') || '<div class="empty"><div class="empty-icon">✅</div>Açık döngü yok</div>';
+
+  // Missing
+  document.getElementById('missingList').innerHTML = (data.missingData||[]).map(m => `
+    <div class="missing-item">
+      <span>${m.label}</span>
+      <span class="badge badge-${m.status==='MISSING'?'red':'yellow'}">${m.status}</span>
+    </div>
+  `).join('') || '<div class="empty"><div class="empty-icon">✅</div>Eksik veri yok</div>';
+
+  // Timeline
+  document.getElementById('timelineList').innerHTML = (data.timeline||[]).map(t => `
+    <div class="tl-item">
+      <div class="tl-dot ${t.color||'gray'}"></div>
+      <div>
+        <div class="tl-date">${t.date} · ${t.sourceId}</div>
+        <div class="tl-content">${t.clinicalKey?.replace(/_/g,' ')} — ${typeof t.value === 'object' ? JSON.stringify(t.value) : t.value}</div>
+      </div>
+    </div>
+  `).join('') || '<div class="empty">Zaman çizelgesi boş</div>';
+}
+
+async function submitFeedback(action) {
+  const prev = document.getElementById('prevContent').value;
+  const final = document.getElementById('finalContent').value;
+  const res = await fetch(API + '/feedback/submit', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      componentId: 'cas_gi_01_output',
+      action,
+      doctorId: 'doc_889',
+      previousContent: prev,
+      finalContent: final
+    })
+  });
+  const data = await res.json();
+  const el = document.getElementById('feedbackResult');
+  el.style.display = 'block';
+  const diffHtml = (data.diff||[]).map(d =>
+    d.removed ? `<span class="diff-rem">${d.value}</span>` :
+    d.added ? `<span class="diff-add">${d.value}</span>` :
+    `<span>${d.value}</span>`
+  ).join('');
+  el.innerHTML = `<div class="badge badge-green" style="margin-bottom:.5rem">✓ Kaydedildi — ${data.logId}</div>
+    <div style="margin-top:.4rem">${diffHtml || 'Değişiklik yok'}</div>`;
+}
+
+async function generateLLM() {
+  document.getElementById('llmBtnTxt').textContent = 'Üretiliyor...';
+  document.getElementById('llmSpinner').style.display = 'block';
+  const res = await fetch(API + '/llm/generate', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:'{}'
+  });
+  const data = await res.json();
+  const el = document.getElementById('llmResult');
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="llm-badge">
+      <span class="badge badge-${data.passed?'green':'red'}">${data.passed?'✓ VERIFIED':'✗ REJECTED'}</span>
+      ${data.violations?.length ? `<span class="badge badge-yellow">${data.violations.length} ihlal</span>` : ''}
+    </div>
+    <div>${data.clinicalSummary || '<span style="color:var(--red)">Çıktı halüsinasyon nedeniyle reddedildi.</span>'}</div>
+  `;
+  document.getElementById('llmBtnTxt').textContent = 'Tekrar Üret';
+  document.getElementById('llmSpinner').style.display = 'none';
+}
+</script>
+</body>
+</html>
