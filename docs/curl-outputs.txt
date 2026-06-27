@@ -1,0 +1,804 @@
+=== 1. POST /cases/analyze ===
+{
+  "caseId": "case_001",
+  "llmStatus": "VERIFIED",
+  "clinicalSummary": "Hastada epigastrik bölgede dirençli ağrı ve hassasiyet şikayeti belgelenmiştir [doc_A]. Son dönemde istemsiz kilo kaybı kayıt altına alınmıştır [doc_B]. Glukoz düzeyi 145 mg/dL olarak ölçülmüş olup referans aralığının üzerindedir [lab_003]. Görüntülemede belirgin akut patoloji izlenmemiş, ancak pankreas yeterince değerlendirilememiştir [rad_001]. Yukarıdaki bulgular birlikte değerlendirildiğinde üst gastrointestinal sistem açısından hekim incelemesi gerektirebilecek bir tablo söz konusudur. Bu çıktı tanısal değildir.",
+  "verifierViolations": [],
+  "evidence": [
+    {
+      "evidenceId": "ev_9b59ded8",
+      "sourceId": "doc_A",
+      "date": "2025-11-10",
+      "category": "symptom",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "unit": null,
+      "confidenceScore": 15,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(>6ay):-25"
+      ]
+    },
+    {
+      "evidenceId": "ev_cb5b389a",
+      "sourceId": "doc_A",
+      "date": "2025-11-10",
+      "category": "risk_factor",
+      "clinicalKey": "smoking_status",
+      "value": "Sigara kullanmıyor",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(>6ay):-25",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_588585d1",
+      "sourceId": "doc_A",
+      "date": "2025-11-10",
+      "category": "risk_factor",
+      "clinicalKey": "alcohol_status",
+      "value": "Alkol kullanımı yok",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(>6ay):-25",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_6579a2fc",
+      "sourceId": "doc_A",
+      "date": "2025-11-10",
+      "category": "risk_factor",
+      "clinicalKey": "allergy_status",
+      "value": "Bilinen ilaç alerjisi yok",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(>6ay,kronik):0",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_81ddb3ba",
+      "sourceId": "doc_B",
+      "date": "2026-03-18",
+      "category": "symptom",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "unit": null,
+      "confidenceScore": 30,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_3058fe1c",
+      "sourceId": "doc_B",
+      "date": "2026-03-18",
+      "category": "symptom",
+      "clinicalKey": "weight_loss",
+      "value": "6 kg istemsiz kilo kaybı",
+      "unit": "kg",
+      "confidenceScore": 30,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_9d09b8cf",
+      "sourceId": "doc_B",
+      "date": "2026-03-18",
+      "category": "risk_factor",
+      "clinicalKey": "smoking_status",
+      "value": "Aktif sigara içici",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(physician_note):+40",
+        "temporal(1-6ay):-10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_cd205448",
+      "sourceId": "doc_C",
+      "date": "2026-03-20",
+      "category": "symptom",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(epicrisis):+40",
+        "temporal(1-6ay):-10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_3810c886",
+      "sourceId": "doc_C",
+      "date": "2026-03-20",
+      "category": "risk_factor",
+      "clinicalKey": "allergy_status",
+      "value": "Penisilin alerjisi mevcut",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(epicrisis):+40",
+        "temporal(1-6ay):-10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_3ceb16ce",
+      "sourceId": "doc_C",
+      "date": "2026-03-20",
+      "category": "risk_factor",
+      "clinicalKey": "allergy_status",
+      "value": "Bilinen ilaç alerjisi yok",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(epicrisis):+40",
+        "temporal(1-6ay):-10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_93445fd2",
+      "sourceId": "doc_D",
+      "date": "2026-06-01",
+      "category": "risk_factor",
+      "clinicalKey": "smoking_status",
+      "value": "Sigara kullanmıyor",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(patient_history):+20",
+        "temporal(<30g):+10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_ad13a3fe",
+      "sourceId": "doc_D",
+      "date": "2026-06-01",
+      "category": "risk_factor",
+      "clinicalKey": "alcohol_status",
+      "value": "Sosyal alkol kullanımı",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(patient_history):+20",
+        "temporal(<30g):+10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_34eae74d",
+      "sourceId": "doc_D",
+      "date": "2026-06-01",
+      "category": "risk_factor",
+      "clinicalKey": "alcohol_status",
+      "value": "Alkol kullanımı yok",
+      "unit": null,
+      "confidenceScore": 0,
+      "scoreFactors": [
+        "base(patient_history):+20",
+        "temporal(<30g):+10",
+        "contradiction_penalty:-40"
+      ]
+    },
+    {
+      "evidenceId": "ev_022b7d5c",
+      "sourceId": "doc_D",
+      "date": "2026-06-01",
+      "category": "family_history",
+      "clinicalKey": "family_pancreatic_disease",
+      "value": "Aile öyküsünde pankreas rahatsızlığı",
+      "unit": null,
+      "confidenceScore": 30,
+      "scoreFactors": [
+        "base(patient_history):+20",
+        "temporal(<30g):+10"
+      ]
+    },
+    {
+      "evidenceId": "ev_72a47b4a",
+      "sourceId": "lab_001",
+      "date": "2025-10-05",
+      "category": "laboratory",
+      "clinicalKey": "glucose",
+      "value": 92,
+      "unit": "mg/dL",
+      "confidenceScore": 25,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(>6ay):-25"
+      ]
+    },
+    {
+      "evidenceId": "ev_fbbc031e",
+      "sourceId": "lab_001",
+      "date": "2025-10-05",
+      "category": "laboratory",
+      "clinicalKey": "HbA1c",
+      "value": 5.4,
+      "unit": "%",
+      "confidenceScore": 25,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(>6ay):-25"
+      ]
+    },
+    {
+      "evidenceId": "ev_023ebfea",
+      "sourceId": "lab_002",
+      "date": "2026-01-14",
+      "category": "laboratory",
+      "clinicalKey": "glucose",
+      "value": 118,
+      "unit": "mg/dL",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_4ff97694",
+      "sourceId": "lab_002",
+      "date": "2026-01-14",
+      "category": "laboratory",
+      "clinicalKey": "HbA1c",
+      "value": 5.9,
+      "unit": "%",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_52687fcd",
+      "sourceId": "lab_002",
+      "date": "2026-01-14",
+      "category": "laboratory",
+      "clinicalKey": "total_bilirubin",
+      "value": 1.1,
+      "unit": "mg/dL",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_f4450a40",
+      "sourceId": "lab_003",
+      "date": "2026-03-18",
+      "category": "laboratory",
+      "clinicalKey": "glucose",
+      "value": 145,
+      "unit": "mg/dL",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_c945b637",
+      "sourceId": "lab_003",
+      "date": "2026-03-18",
+      "category": "laboratory",
+      "clinicalKey": "HbA1c",
+      "value": 6.7,
+      "unit": "%",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_1112987a",
+      "sourceId": "lab_003",
+      "date": "2026-03-18",
+      "category": "laboratory",
+      "clinicalKey": "amylase",
+      "value": 95,
+      "unit": "U/L",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_2e9a1c50",
+      "sourceId": "lab_003",
+      "date": "2026-03-18",
+      "category": "laboratory",
+      "clinicalKey": "lipase",
+      "value": 42,
+      "unit": "U/L",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_d175a450",
+      "sourceId": "lab_003",
+      "date": "2026-03-18",
+      "category": "laboratory",
+      "clinicalKey": "direct_bilirubin",
+      "value": 0.4,
+      "unit": "mg/dL",
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(lab_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    },
+    {
+      "evidenceId": "ev_345e696c",
+      "sourceId": "rad_001",
+      "date": "2026-04-10",
+      "category": "radiology",
+      "clinicalKey": "abdomen_ultrasound",
+      "value": "Belirgin akut patoloji izlenmedi. Pankreas yeterince değerlendirilemedi; klinik şüphe devam ediyorsa BT önerilir.",
+      "unit": null,
+      "confidenceScore": 40,
+      "scoreFactors": [
+        "base(radiology_report):+50",
+        "temporal(1-6ay):-10"
+      ]
+    }
+  ],
+  "conflicts": [
+    {
+      "conflictId": "con_f44c6e4c",
+      "conflictingEvidences": [
+        "ev_9d09b8cf",
+        "ev_cb5b389a",
+        "ev_93445fd2"
+      ],
+      "conflictCategory": "smoking_status_mismatch",
+      "severity": "high",
+      "description": "Farklı kaynaklarda sigara kullanımına ilişkin çelişkili ifadeler tespit edildi. \"doc_A, doc_D\" belgesinde sigara kullanılmadığı belirtilirken, \"doc_B\" belgesinde aktif sigara kullanımı kayıt altına alınmıştır."
+    },
+    {
+      "conflictId": "con_2cfa4786",
+      "conflictingEvidences": [
+        "ev_ad13a3fe",
+        "ev_588585d1",
+        "ev_34eae74d"
+      ],
+      "conflictCategory": "alcohol_status_mismatch",
+      "severity": "medium",
+      "description": "Alkol kullanımı konusunda çelişkili bilgiler mevcuttur. \"doc_A, doc_D\" belgesinde alkol kullanımı olmadığı ifade edilirken, \"doc_D\" belgesinde sosyal alkol kullanımı bildirilmiştir."
+    },
+    {
+      "conflictId": "con_fb81540d",
+      "conflictingEvidences": [
+        "ev_3810c886",
+        "ev_6579a2fc",
+        "ev_3ceb16ce"
+      ],
+      "conflictCategory": "allergy_status_mismatch",
+      "severity": "high",
+      "description": "Alerji kaydında çelişki tespit edildi. \"doc_A, doc_C\" belgesinde bilinen ilaç alerjisi olmadığı belirtilirken, \"doc_C\" belgesinde penisilin alerjisi kayıt altına alınmıştır. Bu durum yüksek klinik önem taşımaktadır."
+    },
+    {
+      "conflictId": "con_57d913a9",
+      "conflictingEvidences": [
+        "ev_cd205448",
+        "ev_3810c886",
+        "ev_3ceb16ce"
+      ],
+      "conflictCategory": "physical_exam_same_day_mismatch",
+      "severity": "medium",
+      "description": "\"doc_C\" belgesinde aynı muayene notunda hem \"Karın rahat, defans yok\" hem de \"epigastrik bölgede hassasiyet\" ifadeleri yer almaktadır. Bu bulgular birbiriyle çelişmektedir."
+    }
+  ],
+  "missingData": [
+    {
+      "key": "ca19_9",
+      "label": "CA 19-9",
+      "criticality": "high",
+      "status": "MISSING",
+      "message": "CA 19-9 sonucu kayıtlarda bulunamadı."
+    },
+    {
+      "key": "amylase",
+      "label": "Amilaz",
+      "criticality": "high",
+      "status": "STALE",
+      "message": "Amilaz sonucu 101 gün önce alınmış, kabul edilebilir güncellik sınırı 7 gündür."
+    },
+    {
+      "key": "lipase",
+      "label": "Lipaz",
+      "criticality": "high",
+      "status": "STALE",
+      "message": "Lipaz sonucu 101 gün önce alınmış, kabul edilebilir güncellik sınırı 7 gündür."
+    },
+    {
+      "key": "total_bilirubin",
+      "label": "Total Bilirubin",
+      "criticality": "medium",
+      "status": "STALE",
+      "message": "Total Bilirubin sonucu 164 gün önce alınmış, kabul edilebilir güncellik sınırı 30 gündür."
+    },
+    {
+      "key": "direct_bilirubin",
+      "label": "Direkt Bilirubin",
+      "criticality": "medium",
+      "status": "STALE",
+      "message": "Direkt Bilirubin sonucu 101 gün önce alınmış, kabul edilebilir güncellik sınırı 30 gündür."
+    },
+    {
+      "key": "abdomen_ct",
+      "label": "Abdomen BT",
+      "criticality": "high",
+      "status": "MISSING",
+      "message": "Abdomen BT sonucu kayıtlarda bulunamadı."
+    }
+  ],
+  "followups": [
+    {
+      "key": "ca19_9",
+      "label": "CA 19-9",
+      "requestedIn": "doc_B",
+      "requestDate": "2026-03-18",
+      "daysSince": 101,
+      "status": "OPEN",
+      "message": "[AÇIK DÖNGÜ]: 101 gün önce \"doc_B\" belgesinde istenen CA 19-9 testi henüz sonuçlanmadı veya sisteme işlenmedi."
+    },
+    {
+      "key": "abdomen_ultrasound",
+      "label": "Kontrol USG",
+      "requestedIn": "doc_B",
+      "requestDate": "2026-03-18",
+      "daysSince": 101,
+      "status": "CLOSED",
+      "message": "Kontrol USG sonucu sisteme işlenmiş."
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2025-10-05",
+      "evidenceId": "ev_72a47b4a",
+      "sourceId": "lab_001",
+      "clinicalKey": "glucose",
+      "value": 92,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 25
+    },
+    {
+      "date": "2025-10-05",
+      "evidenceId": "ev_fbbc031e",
+      "sourceId": "lab_001",
+      "clinicalKey": "HbA1c",
+      "value": 5.4,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 25
+    },
+    {
+      "date": "2025-11-10",
+      "evidenceId": "ev_9b59ded8",
+      "sourceId": "doc_A",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "category": "symptom",
+      "color": "yellow",
+      "confidenceScore": 15
+    },
+    {
+      "date": "2025-11-10",
+      "evidenceId": "ev_cb5b389a",
+      "sourceId": "doc_A",
+      "clinicalKey": "smoking_status",
+      "value": "Sigara kullanmıyor",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2025-11-10",
+      "evidenceId": "ev_588585d1",
+      "sourceId": "doc_A",
+      "clinicalKey": "alcohol_status",
+      "value": "Alkol kullanımı yok",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2025-11-10",
+      "evidenceId": "ev_6579a2fc",
+      "sourceId": "doc_A",
+      "clinicalKey": "allergy_status",
+      "value": "Bilinen ilaç alerjisi yok",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-01-14",
+      "evidenceId": "ev_023ebfea",
+      "sourceId": "lab_002",
+      "clinicalKey": "glucose",
+      "value": 118,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-01-14",
+      "evidenceId": "ev_4ff97694",
+      "sourceId": "lab_002",
+      "clinicalKey": "HbA1c",
+      "value": 5.9,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-01-14",
+      "evidenceId": "ev_52687fcd",
+      "sourceId": "lab_002",
+      "clinicalKey": "total_bilirubin",
+      "value": 1.1,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_81ddb3ba",
+      "sourceId": "doc_B",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "category": "symptom",
+      "color": "yellow",
+      "confidenceScore": 30
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_3058fe1c",
+      "sourceId": "doc_B",
+      "clinicalKey": "weight_loss",
+      "value": "6 kg istemsiz kilo kaybı",
+      "category": "symptom",
+      "color": "yellow",
+      "confidenceScore": 30
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_9d09b8cf",
+      "sourceId": "doc_B",
+      "clinicalKey": "smoking_status",
+      "value": "Aktif sigara içici",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_f4450a40",
+      "sourceId": "lab_003",
+      "clinicalKey": "glucose",
+      "value": 145,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_c945b637",
+      "sourceId": "lab_003",
+      "clinicalKey": "HbA1c",
+      "value": 6.7,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_1112987a",
+      "sourceId": "lab_003",
+      "clinicalKey": "amylase",
+      "value": 95,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_2e9a1c50",
+      "sourceId": "lab_003",
+      "clinicalKey": "lipase",
+      "value": 42,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-18",
+      "evidenceId": "ev_d175a450",
+      "sourceId": "lab_003",
+      "clinicalKey": "direct_bilirubin",
+      "value": 0.4,
+      "category": "laboratory",
+      "color": "blue",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-03-20",
+      "evidenceId": "ev_cd205448",
+      "sourceId": "doc_C",
+      "clinicalKey": "epigastric_pain",
+      "value": "Epigastrik ağrı / hassasiyet",
+      "category": "symptom",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-03-20",
+      "evidenceId": "ev_3810c886",
+      "sourceId": "doc_C",
+      "clinicalKey": "allergy_status",
+      "value": "Penisilin alerjisi mevcut",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-03-20",
+      "evidenceId": "ev_3ceb16ce",
+      "sourceId": "doc_C",
+      "clinicalKey": "allergy_status",
+      "value": "Bilinen ilaç alerjisi yok",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-04-10",
+      "evidenceId": "ev_345e696c",
+      "sourceId": "rad_001",
+      "clinicalKey": "abdomen_ultrasound",
+      "value": "Belirgin akut patoloji izlenmedi. Pankreas yeterince değerlendirilemedi; klinik şüphe devam ediyorsa BT önerilir.",
+      "category": "radiology",
+      "color": "red",
+      "confidenceScore": 40
+    },
+    {
+      "date": "2026-06-01",
+      "evidenceId": "ev_93445fd2",
+      "sourceId": "doc_D",
+      "clinicalKey": "smoking_status",
+      "value": "Sigara kullanmıyor",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-06-01",
+      "evidenceId": "ev_ad13a3fe",
+      "sourceId": "doc_D",
+      "clinicalKey": "alcohol_status",
+      "value": "Sosyal alkol kullanımı",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-06-01",
+      "evidenceId": "ev_34eae74d",
+      "sourceId": "doc_D",
+      "clinicalKey": "alcohol_status",
+      "value": "Alkol kullanımı yok",
+      "category": "risk_factor",
+      "color": "yellow",
+      "confidenceScore": 0
+    },
+    {
+      "date": "2026-06-01",
+      "evidenceId": "ev_022b7d5c",
+      "sourceId": "doc_D",
+      "clinicalKey": "family_pancreatic_disease",
+      "value": "Aile öyküsünde pankreas rahatsızlığı",
+      "category": "family_history",
+      "color": "yellow",
+      "confidenceScore": 30
+    }
+  ],
+  "earlySignals": [
+    {
+      "signalId": "CAS_GI_01",
+      "severity": "attention",
+      "metCriteria": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "message": "Klinik kayıtlardaki istemsiz kilo kaybı, yeni başlangıçlı glukoz regülasyon bozukluğu ve dirençli epigastrik ağrı bulguları birlikte değerlendirildiğinde; üst gastrointestinal veya pankreatobiliyer sistemler açısından hekim incelemesi gerektirebilecek bir klinik dikkat sinyali oluşmaktadır. Mevcut kayıtlarda bu örüntüyü netleştirecek spesifik biyobelirteçler eksiktir.",
+      "disclaimer": "Bu sinyal tanısal değildir. Kesin teşhis için hekim değerlendirmesi zorunludur."
+    }
+  ],
+  "earlySignalCriteria": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ]
+}
+
+
+=== 2. POST /feedback/submit ===
+{
+  "message": "Doktor geri bildirimi kaydedildi.",
+  "logId": "log_9b42ae5e",
+  "action": "EDIT",
+  "timestamp": "2026-06-27T10:28:42.798Z",
+  "diff": [
+    {
+      "added": false,
+      "removed": true,
+      "value": "AI ürettiği"
+    },
+    {
+      "added": true,
+      "removed": false,
+      "value": "Doktorun düzenlediği"
+    },
+    {
+      "added": false,
+      "removed": false,
+      "value": " metin"
+    }
+  ]
+}
+
+
+=== 3. POST /llm/generate ===
+{
+  "passed": true,
+  "clinicalSummary": "Hastada epigastrik bölgede dirençli ağrı ve hassasiyet şikayeti belgelenmiştir [doc_A]. Son dönemde istemsiz kilo kaybı kayıt altına alınmıştır [doc_B]. Glukoz düzeyi 145 mg/dL olarak ölçülmüş olup referans aralığının üzerindedir [lab_003]. Görüntülemede belirgin akut patoloji izlenmemiş, ancak pankreas yeterince değerlendirilememiştir [rad_001]. Yukarıdaki bulgular birlikte değerlendirildiğinde üst gastrointestinal sistem açısından hekim incelemesi gerektirebilecek bir tablo söz konusudur. Bu çıktı tanısal değildir.",
+  "rawLlmOutput": "Hastada epigastrik bölgede dirençli ağrı ve hassasiyet şikayeti belgelenmiştir [doc_A]. Son dönemde istemsiz kilo kaybı kayıt altına alınmıştır [doc_B]. Glukoz düzeyi 145 mg/dL olarak ölçülmüş olup referans aralığının üzerindedir [lab_003]. Görüntülemede belirgin akut patoloji izlenmemiş, ancak pankreas yeterince değerlendirilememiştir [rad_001]. Yukarıdaki bulgular birlikte değerlendirildiğinde üst gastrointestinal sistem açısından hekim incelemesi gerektirebilecek bir tablo söz konusudur. Bu çıktı tanısal değildir.",
+  "violations": [],
+  "removedSentences": []
+}
+
+
+=== 4. GET /llm/status ===
+{
+  "mode": "closed-book",
+  "hallucinationGuard": "active",
+  "verifierAgent": "active",
+  "llmType": "mock"
+}
+
+
+=== 5. GET /health ===
+{
+  "status": "ok",
+  "platform": "DxTrace",
+  "version": "1.0.0"
+}

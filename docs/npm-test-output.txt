@@ -1,0 +1,15 @@
+
+> dxtrace@1.0.0 test
+> jest --runInBand --forceExit
+
+PASS tests/contradiction.test.js
+PASS tests/confidenceScorer.test.js
+PASS tests/hallucinationGuard.test.js
+PASS tests/followup.test.js
+
+Test Suites: 4 passed, 4 total
+Tests:       31 passed, 31 total
+Snapshots:   0 total
+Time:        0.221 s, estimated 1 s
+Ran all test suites.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?
