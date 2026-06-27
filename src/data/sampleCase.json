@@ -1,0 +1,18 @@
+{
+  "caseId": "case_001",
+  "patientCode": "PTX-2026-001",
+  "age": 58,
+  "gender": "male",
+  "chiefComplaint": "Epigastrik bölgede 3 aydır süren ağrı ve dolgunluk hissi",
+  "admissionDate": "2026-06-01",
+  "documents": [
+    "doc_A",
+    "doc_B",
+    "doc_C",
+    "doc_D",
+    "lab_001",
+    "lab_002",
+    "lab_003",
+    "rad_001"
+  ]
+}

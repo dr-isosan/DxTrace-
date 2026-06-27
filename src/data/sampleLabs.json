@@ -1,0 +1,33 @@
+[
+  {
+    "documentId": "lab_001",
+    "sourceType": "lab_report",
+    "date": "2025-10-05",
+    "tests": [
+      { "clinicalKey": "glucose", "value": 92, "unit": "mg/dL", "referenceRange": "70-100", "status": "normal" },
+      { "clinicalKey": "HbA1c", "value": 5.4, "unit": "%", "referenceRange": "<5.7", "status": "normal" }
+    ]
+  },
+  {
+    "documentId": "lab_002",
+    "sourceType": "lab_report",
+    "date": "2026-01-14",
+    "tests": [
+      { "clinicalKey": "glucose", "value": 118, "unit": "mg/dL", "referenceRange": "70-100", "status": "borderline" },
+      { "clinicalKey": "HbA1c", "value": 5.9, "unit": "%", "referenceRange": "<5.7", "status": "borderline" },
+      { "clinicalKey": "total_bilirubin", "value": 1.1, "unit": "mg/dL", "referenceRange": "0.2-1.2", "status": "normal" }
+    ]
+  },
+  {
+    "documentId": "lab_003",
+    "sourceType": "lab_report",
+    "date": "2026-03-18",
+    "tests": [
+      { "clinicalKey": "glucose", "value": 145, "unit": "mg/dL", "referenceRange": "70-100", "status": "high" },
+      { "clinicalKey": "HbA1c", "value": 6.7, "unit": "%", "referenceRange": "<5.7", "status": "high" },
+      { "clinicalKey": "amylase", "value": 95, "unit": "U/L", "referenceRange": "30-110", "status": "normal" },
+      { "clinicalKey": "lipase", "value": 42, "unit": "U/L", "referenceRange": "10-60", "status": "normal" },
+      { "clinicalKey": "direct_bilirubin", "value": 0.4, "unit": "mg/dL", "referenceRange": "0-0.3", "status": "borderline" }
+    ]
+  }
+]

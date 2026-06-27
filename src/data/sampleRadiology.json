@@ -1,0 +1,12 @@
+[
+  {
+    "documentId": "rad_001",
+    "sourceType": "radiology_report",
+    "date": "2026-04-10",
+    "modality": "abdomen_ultrasound",
+    "radiologist": "Dr. Selin Doğan",
+    "finding": "Karaciğer boyut ve ekojenite açısından normal görünümde. Safra kesesi duvar kalınlığı normal, taş izlenmedi. Pankreas gövde ve kuyruğu yeterince değerlendirilemedi (bağırsak gazı nedeniyle). Belirgin akut patoloji izlenmedi.",
+    "impression": "Belirgin akut patoloji izlenmedi. Pankreas yeterince değerlendirilemedi; klinik şüphe devam ediyorsa BT önerilir.",
+    "followupRecommendation": "Klinik şüphe devam ediyorsa abdomen BT önerilir."
+  }
+]
