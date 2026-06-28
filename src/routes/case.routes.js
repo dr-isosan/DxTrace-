@@ -29,7 +29,7 @@ router.post('/analyze', (req, res) => {
     logSystemEvent({ event: 'ANALYZE_STARTED', detail: { caseId } });
 
     // 1. Evidence Store oluştur
-    const rawEvidences = buildEvidenceStore();
+    const rawEvidences = buildEvidenceStore(caseId);
 
     // 2. Çelişki tespiti
     const { conflicts, conflictedIds } = detectConflicts(rawEvidences);

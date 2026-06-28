@@ -1,0 +1,138 @@
+/* ── DxTrace Design Tokens ─────────────────────────────────── */
+:root {
+  /* Background layers */
+  --bg-deep:     #060b14;
+  --bg-base:     #0a101e;
+  --surface-1:   #0f1829;
+  --surface-2:   #141f35;
+  --surface-3:   #1a2640;
+
+  /* Border */
+  --border:      #1e2d45;
+  --border-light: #253855;
+
+  /* Semantic colors — scoped, not global */
+  --color-critical:    #ef4444;
+  --color-critical-bg: rgba(239, 68, 68, 0.08);
+  --color-critical-border: rgba(239, 68, 68, 0.2);
+
+  --color-warning:    #f59e0b;
+  --color-warning-bg: rgba(245, 158, 11, 0.08);
+  --color-warning-border: rgba(245, 158, 11, 0.2);
+
+  --color-success:    #10b981;
+  --color-success-bg: rgba(16, 185, 129, 0.08);
+  --color-success-border: rgba(16, 185, 129, 0.2);
+
+  --color-info:    #3b82f6;
+  --color-info-bg: rgba(59, 130, 246, 0.08);
+  --color-info-border: rgba(59, 130, 246, 0.2);
+
+  --color-neutral:    #64748b;
+  --color-neutral-bg: rgba(100, 116, 139, 0.1);
+  --color-neutral-border: rgba(100, 116, 139, 0.2);
+
+  --color-purple:    #8b5cf6;
+  --color-purple-bg: rgba(139, 92, 246, 0.08);
+  --color-purple-border: rgba(139, 92, 246, 0.2);
+
+  --color-accent: #06b6d4;
+
+  /* Text */
+  --text-primary:   #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --text-faint:     #3d5068;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-full: 9999px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow-glow-blue: 0 0 24px rgba(59,130,246,0.2);
+  --shadow-glow-green: 0 0 20px rgba(16,185,129,0.15);
+
+  /* Transitions */
+  --t-fast: 120ms ease;
+  --t-base: 200ms ease;
+  --t-slow: 350ms ease;
+}
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100vh; }
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+/* ── Typography Utilities ─────────────────────────────────── */
+.text-xs   { font-size: 0.72rem; }
+.text-sm   { font-size: 0.8rem; }
+.text-base { font-size: 0.875rem; }
+.text-md   { font-size: 1rem; }
+.text-lg   { font-size: 1.125rem; }
+.text-xl   { font-size: 1.25rem; }
+
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+
+.text-primary   { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted     { color: var(--text-muted); }
+
+/* ── Animations ───────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideOutRight {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(110%); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease forwards; }
+
+/* ── Score bar fill animation ──────────────────────────────── */
+@keyframes growWidth {
+  from { width: 0%; }
+}

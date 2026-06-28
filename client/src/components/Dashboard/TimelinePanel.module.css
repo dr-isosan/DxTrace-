@@ -1,0 +1,114 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: stretch;
+  padding: 6px 8px;
+  border-radius: var(--radius-md);
+  transition: background var(--t-fast), transform var(--t-fast);
+  margin-left: -8px; /* Offset padding to keep dot aligned */
+}
+
+.item:hover {
+  background: var(--surface-1);
+  transform: translateX(2px);
+}
+
+.dotCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--surface-2);
+}
+
+.line {
+  flex: 1;
+  width: 1px;
+  background: var(--border);
+  margin: 3px auto;
+  min-height: 6px;
+}
+
+.item:last-child .line {
+  display: none;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding-bottom: 12px;
+  padding-top: 2px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.date {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.source {
+  font-size: 0.62rem;
+  color: var(--text-faint);
+  font-family: monospace;
+  background: var(--surface-1);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.event {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
+}
+
+.clinicalKey {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.value {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 2rem;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}

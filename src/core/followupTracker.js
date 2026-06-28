@@ -10,7 +10,7 @@
 'use strict';
 
 const dayjs = require('dayjs');
-const sampleNotes = require('../data/sampleNotes.json');
+// Load notes dynamically below
 
 // Regex: "X istendi / planlandı / önerildi" gibi ifadeleri yakalar
 const REQUEST_PATTERNS = [
@@ -30,6 +30,14 @@ const OPEN_LOOP_THRESHOLD_DAYS = 14;
  */
 function trackFollowups(evidences) {
   const followups = [];
+  
+  let sampleNotes = [];
+  try {
+    const raw = require('../data/sampleNotes.json');
+    sampleNotes = Object.values(raw).flat();
+  } catch (e) {
+    // Ignore
+  }
 
   for (const note of sampleNotes) {
     for (const pattern of REQUEST_PATTERNS) {

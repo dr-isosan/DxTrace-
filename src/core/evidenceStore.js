@@ -15,10 +15,11 @@ const sampleRadiology = require('../data/sampleRadiology.json');
  * Doktor notlarından Evidence nesneleri üretir.
  * @returns {Evidence[]}
  */
-function extractFromNotes() {
+function extractFromNotes(caseId = 'case_001') {
   const evidences = [];
+  const notes = sampleNotes[caseId] || [];
 
-  for (const note of sampleNotes) {
+  for (const note of notes) {
     const base = {
       sourceId: note.documentId,
       sourceType: note.sourceType,
@@ -160,10 +161,11 @@ function extractFromNotes() {
  * Laboratuvar sonuçlarından Evidence nesneleri üretir.
  * @returns {Evidence[]}
  */
-function extractFromLabs() {
+function extractFromLabs(caseId = 'case_001') {
   const evidences = [];
+  const labs = sampleLabs[caseId] || [];
 
-  for (const lab of sampleLabs) {
+  for (const lab of labs) {
     for (const test of lab.tests) {
       evidences.push({
         evidenceId: `ev_${uuidv4().slice(0, 8)}`,
@@ -188,8 +190,9 @@ function extractFromLabs() {
  * Radyoloji raporlarından Evidence nesneleri üretir.
  * @returns {Evidence[]}
  */
-function extractFromRadiology() {
-  return sampleRadiology.map((rad) => ({
+function extractFromRadiology(caseId = 'case_001') {
+  const rads = sampleRadiology[caseId] || [];
+  return rads.map((rad) => ({
     evidenceId: `ev_${uuidv4().slice(0, 8)}`,
     sourceId: rad.documentId,
     sourceType: rad.sourceType,
@@ -208,11 +211,11 @@ function extractFromRadiology() {
  * Tüm kaynaklardan kanıtları birleştirir.
  * @returns {Evidence[]}
  */
-function buildEvidenceStore() {
+function buildEvidenceStore(caseId = 'case_001') {
   return [
-    ...extractFromNotes(),
-    ...extractFromLabs(),
-    ...extractFromRadiology(),
+    ...extractFromNotes(caseId),
+    ...extractFromLabs(caseId),
+    ...extractFromRadiology(caseId),
   ];
 }
 

@@ -1,0 +1,43 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--surface-1);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.iconMissing { color: var(--color-critical); flex-shrink: 0; }
+.iconStale   { color: var(--color-warning); flex-shrink: 0; }
+.iconOk      { color: var(--color-success); flex-shrink: 0; }
+
+.label {
+  flex: 1;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.emptyIcon { color: var(--color-success); }
+
+.empty span {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+}

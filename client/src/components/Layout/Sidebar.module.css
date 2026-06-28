@@ -1,0 +1,311 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 84px);
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.hint {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.code {
+  color: var(--color-accent);
+  font-family: monospace;
+  background: rgba(6,182,212,0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.select {
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--t-fast);
+}
+
+.select:focus {
+  border-color: var(--color-info);
+}
+
+.select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnPrimary {
+  width: 100%;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, var(--color-info), var(--color-accent));
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: all var(--t-base);
+  box-shadow: 0 2px 12px rgba(59,130,246,0.25);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.4);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btnPrimary.purple {
+  background: linear-gradient(135deg, var(--color-purple), #6366f1);
+  box-shadow: 0 2px 12px rgba(139,92,246,0.25);
+}
+
+.btnPrimary.purple:hover:not(:disabled) {
+  box-shadow: 0 6px 20px rgba(139,92,246,0.4);
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* Module List */
+.moduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.moduleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  background: var(--surface-1);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.moduleName {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+}
+
+.badgeGreen {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: var(--color-success-border);
+}
+
+.badgeGray {
+  background: var(--color-neutral-bg);
+  color: var(--text-muted);
+  border-color: var(--color-neutral-border);
+}
+
+/* Feedback */
+.label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.textarea {
+  width: 100%;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  padding: 8px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 8px;
+  transition: border-color var(--t-fast);
+  line-height: 1.5;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-info);
+}
+
+.feedbackActions {
+  display: flex;
+  gap: 6px;
+}
+
+.btnFeedback {
+  flex: 1;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  border: none;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all var(--t-fast);
+}
+
+.btnFeedback:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.approve {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.approve:hover:not(:disabled) {
+  background: var(--color-success);
+  color: #fff;
+}
+
+.edit {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-border);
+}
+
+.edit:hover:not(:disabled) {
+  background: var(--color-warning);
+  color: #000;
+}
+
+.reject {
+  background: var(--color-critical-bg);
+  color: var(--color-critical);
+  border: 1px solid var(--color-critical-border);
+}
+
+.reject:hover:not(:disabled) {
+  background: var(--color-critical);
+  color: #fff;
+}
+
+/* LLM Result */
+.llmResult {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  animation: fadeIn 0.3s ease;
+}
+
+.llmPassed {
+  background: var(--color-success-bg);
+  border-color: var(--color-success-border);
+}
+
+.llmFailed {
+  background: var(--color-critical-bg);
+  border-color: var(--color-critical-border);
+}
+
+.llmStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.llmPassed .llmStatus { color: var(--color-success); }
+.llmFailed .llmStatus { color: var(--color-critical); }
+
+.violationBadge {
+  margin-left: 4px;
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-border);
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.llmText {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.llmTextMuted {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-style: italic;
+}

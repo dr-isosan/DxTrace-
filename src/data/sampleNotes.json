@@ -1,38 +1,62 @@
-[
-  {
-    "documentId": "doc_A",
-    "sourceType": "physician_note",
-    "author": "Dr. Ahmet Yılmaz",
-    "specialty": "internal_medicine",
-    "date": "2025-11-10",
-    "text": "Hasta 58 yaşında erkek, poliklinik başvurusu. Bilinen kronik hastalığı yok. Sigara kullanmıyor, alkol kullanımı yok. Bilinen ilaç alerjisi yok. Diyabet öyküsü yok. Epigastrik bölgede hafif ağrı şikayeti mevcut. Antasit tedavisi önerildi.",
-    "requestedTests": []
-  },
-  {
-    "documentId": "doc_B",
-    "sourceType": "physician_note",
-    "author": "Dr. Mehmet Kaya",
-    "specialty": "gastroenterology",
-    "date": "2026-03-18",
-    "text": "Hasta tekrar başvurdu. Aktif sigara içici, günde 1 paket. Epigastrik bölgede dirençli ağrı ve sırta vuran ağrı tarif ediyor. Son 3 ayda yaklaşık 6 kg istemsiz kilo kaybı mevcut (başlangıç ağırlığı 82 kg, şu an 76 kg). Glukoz yüksekliği dikkat çekici. CA 19-9 tahlili istendi, kontrol USG planlandı.",
-    "requestedTests": ["CA 19-9", "kontrol USG"]
-  },
-  {
-    "documentId": "doc_C",
-    "sourceType": "epicrisis",
-    "author": "Dr. Mehmet Kaya",
-    "specialty": "gastroenterology",
-    "date": "2026-03-20",
-    "text": "Hasta 2 gün hospitalize edildi. Bilinen ilaç alerjisi yok. Penisilin alerjisi mevcut olup alerji kartına işlendi. Abdomen muayenesinde epigastrik bölgede derin palpasyonla hassasiyet saptandı. Karın rahat, defans yok. Taburcu edildi, kontrol önerildi.",
-    "requestedTests": []
-  },
-  {
-    "documentId": "doc_D",
-    "sourceType": "patient_history",
-    "author": "Hemşire formu",
-    "specialty": null,
-    "date": "2026-06-01",
-    "text": "Hasta beyanı: Haftada 2-3 kez sosyal alkol kullanımı mevcut. Sigara içmiyor. Ailesinde pankreas rahatsızlığı öyküsü olduğunu belirtiyor.",
-    "requestedTests": []
-  }
-]
+{
+  "case_001": [
+    {
+      "documentId": "doc_A",
+      "sourceType": "physician_note",
+      "author": "Dr. Ahmet Yılmaz",
+      "specialty": "internal_medicine",
+      "date": "2025-11-10",
+      "text": "Hasta 58 yaşında erkek, poliklinik başvurusu. Bilinen kronik hastalığı yok. Sigara kullanmıyor, alkol kullanımı yok. Bilinen ilaç alerjisi yok. Diyabet öyküsü yok. Epigastrik bölgede hafif ağrı şikayeti mevcut. Antasit tedavisi önerildi.",
+      "requestedTests": []
+    },
+    {
+      "documentId": "doc_B",
+      "sourceType": "physician_note",
+      "author": "Dr. Mehmet Kaya",
+      "specialty": "gastroenterology",
+      "date": "2026-03-18",
+      "text": "Hasta tekrar başvurdu. Aktif sigara içici, günde 1 paket. Epigastrik bölgede dirençli ağrı ve sırta vuran ağrı tarif ediyor. Son 3 ayda yaklaşık 6 kg istemsiz kilo kaybı mevcut (başlangıç ağırlığı 82 kg, şu an 76 kg). Glukoz yüksekliği dikkat çekici. CA 19-9 tahlili istendi, kontrol USG planlandı.",
+      "requestedTests": ["CA 19-9", "kontrol USG"]
+    },
+    {
+      "documentId": "doc_C",
+      "sourceType": "epicrisis",
+      "author": "Dr. Mehmet Kaya",
+      "specialty": "gastroenterology",
+      "date": "2026-03-20",
+      "text": "Hasta 2 gün hospitalize edildi. Bilinen ilaç alerjisi yok. Penisilin alerjisi mevcut olup alerji kartına işlendi. Abdomen muayenesinde epigastrik bölgede derin palpasyonla hassasiyet saptandı. Karın rahat, defans yok. Taburcu edildi, kontrol önerildi.",
+      "requestedTests": []
+    },
+    {
+      "documentId": "doc_D",
+      "sourceType": "patient_history",
+      "author": "Hemşire formu",
+      "specialty": null,
+      "date": "2026-06-01",
+      "text": "Hasta beyanı: Haftada 2-3 kez sosyal alkol kullanımı mevcut. Sigara içmiyor. Ailesinde pankreas rahatsızlığı öyküsü olduğunu belirtiyor.",
+      "requestedTests": []
+    }
+  ],
+  "case_002": [
+    {
+      "documentId": "doc_cardio_1",
+      "sourceType": "physician_note",
+      "author": "Dr. Ali Demir",
+      "specialty": "cardiology",
+      "date": "2026-06-15",
+      "text": "Göğüs ağrısı şikayeti ile başvuran hasta. Aktif sigara içici, hipertansiyon öyküsü var. EKG'de ST çökmesi mevcut.",
+      "requestedTests": ["Troponin", "EKG"]
+    }
+  ],
+  "case_003": [
+    {
+      "documentId": "doc_pulm_1",
+      "sourceType": "physician_note",
+      "author": "Dr. Ayşe Yılmaz",
+      "specialty": "pulmonology",
+      "date": "2026-06-20",
+      "text": "3 haftadır devam eden kuru öksürük. Ateş yok, kilo kaybı yok. Alkol kullanımı yok. Astım öyküsü.",
+      "requestedTests": ["Akciğer Grafisi", "SFT"]
+    }
+  ]
+}

@@ -8,21 +8,57 @@ DxTrace bir "AI doktor" değildir. Doktorun klinik karar sürecini güçlendiren
 
 ---
 
+## Proje Yapısı
+
+```
+DxTrace/
+├── src/                  # Node.js/Express backend
+├── client/               # React web dashboard
+└── mobile/               # Expo React Native mobil uygulama
+```
+
+---
+
 ## Hızlı Başlangıç
 
+### Backend
+
 ```bash
-# Bağımlılıkları kur
 npm install
-
-# Sunucuyu başlat
 npm start          # http://localhost:3000
-
-# Geliştirme modu (hot-reload)
-npm run dev
-
-# Testleri çalıştır
+npm run dev        # hot-reload
 npm test
 ```
+
+### Web Dashboard
+
+```bash
+cd client
+npm install
+npm run dev        # http://localhost:5173
+```
+
+### Mobil Uygulama (Expo)
+
+```bash
+cd mobile
+npm install
+npx expo start --clear
+```
+
+> **Gereksinim:** Expo Go uygulaması telefonunda kurulu olmalı. Telefon ve bilgisayar aynı Wi-Fi ağında olmalı.
+> 
+> LAN IP'yi `mobile/src/api/dxtrace.js` içindeki `BASE_URL`'den güncelleyebilirsin.
+
+---
+
+## Mobil Kurulum Notları
+
+Expo SDK 54 ile React Native 0.81.5 kullanılmaktadır. Hermes engine için gerekli Babel yapılandırması hazır:
+
+- `babel.config.js` — private class field transform plugin'leri aktif
+- `metro.config.js` — `react-native` paketleri Babel ile transpile ediliyor
+- `polyfill.js` — Hermes'te eksik Web API'leri (DOMRect, AbortController, vb.) tanımlı
 
 ---
 
@@ -105,6 +141,24 @@ src/
     ├── case.routes.js           # POST /cases/analyze
     ├── llm.routes.js            # POST /llm/query
     └── feedback.routes.js       # POST /feedback/submit
+
+client/                          # React Web Dashboard
+├── src/
+│   ├── App.jsx                  # Ana uygulama
+│   ├── components/              # UI bileşenleri
+│   └── api/                     # Axios API katmanı
+
+mobile/                          # Expo React Native
+├── App.js                       # Navigation container
+├── index.js                     # Polyfill + entry point
+├── polyfill.js                  # Hermes Web API polyfill'leri
+├── babel.config.js              # Private class field transforms
+├── metro.config.js              # node_modules transpile config
+└── src/
+    ├── api/dxtrace.js           # Backend API bağlantısı
+    ├── screens/                 # Dashboard & Tools ekranları
+    ├── components/              # Klinik UI kartları
+    └── theme/                   # Renk & tasarım token'ları
 ```
 
 ---

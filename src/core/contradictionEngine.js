@@ -165,7 +165,9 @@ function _checkSameDayExamConflict(evidences, conflicts, conflictedIds) {
 
 function _loadNotes() {
   try {
-    return { sampleNotes: require('../data/sampleNotes.json') };
+    const raw = require('../data/sampleNotes.json');
+    const sampleNotes = Object.values(raw).flat();
+    return { sampleNotes };
   } catch {
     return { sampleNotes: [] };
   }
