@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import {
-  Zap, Cpu, UserCheck, Bot, CheckCircle, Clock, XCircle, Minus,
+  Zap, Cpu, UserCheck, Bot, CheckCircle, Clock, XCircle, Minus, History, ChevronRight,
 } from 'lucide-react';
 import { useToast } from '../Toast/ToastProvider';
-import { generateLLM, submitFeedback } from '../../api/dxtrace';
+import { submitFeedback, generateLLM } from '../../api/dxtrace';
 import styles from './Sidebar.module.css';
 
 const MODULE_ICONS = {
@@ -17,7 +17,7 @@ const MODULE_ICONS = {
 
 function ModuleRow({ name, active }) {
   return (
-    <div className={styles.moduleRow}>
+    <div className={`${styles.moduleRow} ${active ? styles.moduleRowActive : ''}`}>
       <span className={styles.moduleName}>
         {MODULE_ICONS[name] || <Cpu size={13} />}
         {name}
@@ -35,6 +35,31 @@ function ModuleRow({ name, active }) {
   );
 }
 
+/** Son geri bildirim geçmişini göster */
+function FeedbackHistoryPanel({ history }) {
+  if (!history.length) return null;
+  return (
+    <div className={styles.historyList}>
+      {history.slice(-5).reverse().map((h, i) => (
+        <div key={i} className={styles.historyRow}>
+          <span className={`${styles.historyBadge} ${styles[`history${h.action}`]}`}>
+            {h.action === 'APPROVE' ? <CheckCircle size={10} /> :
+             h.action === 'REJECT'  ? <XCircle size={10} />    :
+             '✏'}
+            {h.action === 'APPROVE' ? 'Onay' : h.action === 'REJECT' ? 'Red' : 'Düz'}
+          </span>
+          {h.changeType && (
+            <span className={styles.historyType}>{h.changeType}</span>
+          )}
+          <span className={styles.historyTime}>
+            {new Date(h.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData, selectedCase, onCaseChange }) {
   const { addToast } = useToast();
   const [prevContent, setPrevContent] = useState('AI ürettiği klinik özet metni');
@@ -42,6 +67,8 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
   const [feedbackLoading, setFeedbackLoading] = useState(false);
   const [llmLoading, setLlmLoading] = useState(false);
   const [llmData, setLlmData] = useState(null);
+  // Geri bildirim geçmişi — LLM loop'u görüncülü yapar
+  const [feedbackHistory, setFeedbackHistory] = useState([]);
 
   const handleFeedback = async (action) => {
     setFeedbackLoading(true);
@@ -54,10 +81,20 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
         finalContent,
       });
       const actionLabel = { APPROVE: 'Onaylandı', EDIT: 'Düzenleme kaydedildi', REJECT: 'Reddedildi' }[action];
+      // Geçmiş listesine ekle
+      setFeedbackHistory(prev => [
+        ...prev,
+        {
+          action,
+          changeType: result.changeType,
+          timestamp: result.timestamp || new Date().toISOString(),
+          logId: result.logId,
+        },
+      ]);
       addToast({
         type: action === 'APPROVE' ? 'success' : action === 'EDIT' ? 'warning' : 'error',
         title: actionLabel,
-        message: `Log ID: ${result.logId}`,
+        message: `Log ID: ${result.logId} • ${result.changeType}`,
         duration: 5000,
       });
     } catch (err) {
@@ -174,7 +211,7 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
             onClick={() => handleFeedback('EDIT')}
             disabled={feedbackLoading}
           >
-            ✏ Düzenle
+            ✏ Düzle
           </button>
           <button
             className={`${styles.btnFeedback} ${styles.reject}`}
@@ -184,6 +221,18 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
             <XCircle size={13} /> Reddet
           </button>
         </div>
+
+        {/* Geri Bildirim Geçmişi — LLM loop görüncülüğü */}
+        {feedbackHistory.length > 0 && (
+          <div className={styles.historySection}>
+            <div className={styles.historyHeader}>
+              <History size={11} />
+              Son aksiyonlar
+              <span className={styles.historyCount}>{feedbackHistory.length}</span>
+            </div>
+            <FeedbackHistoryPanel history={feedbackHistory} />
+          </div>
+        )}
       </div>
 
       {/* LLM */}

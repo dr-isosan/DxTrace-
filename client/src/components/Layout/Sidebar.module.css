@@ -136,6 +136,20 @@
   background: var(--surface-1);
   border-radius: var(--radius-sm);
   border: 1px solid var(--border);
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+  cursor: default;
+}
+
+.moduleRow:hover {
+  background: var(--surface-2);
+  border-color: var(--border-light);
+  transform: translateX(2px);
+}
+
+/* Aktif modül satırı — sol kenara mavi aksan */
+.moduleRowActive {
+  border-left: 2px solid var(--color-info);
+  padding-left: 6px;
 }
 
 .moduleName {
@@ -308,4 +322,102 @@
   font-size: 0.72rem;
   color: var(--text-muted);
   font-style: italic;
+}
+
+/* ── Feedback Geçmişi Paneli ───────────────────────────────────────────── */
+.historySection {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  animation: fadeIn 0.2s ease;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 7px;
+}
+
+.historyCount {
+  margin-left: auto;
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  font-size: 0.62rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.historyRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  background: var(--surface-1);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: background var(--t-fast);
+}
+
+.historyRow:hover {
+  background: var(--surface-2);
+}
+
+/* Aksiyon badge'leri */
+.historyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.historyAPPROVE {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.historyEDIT {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-border);
+}
+
+.historyREJECT {
+  background: var(--color-critical-bg);
+  color: var(--color-critical);
+  border: 1px solid var(--color-critical-border);
+}
+
+.historyType {
+  flex: 1;
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: monospace;
+}
+
+.historyTime {
+  font-size: 0.6rem;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  font-family: monospace;
 }

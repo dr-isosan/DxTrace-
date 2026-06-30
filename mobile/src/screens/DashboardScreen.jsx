@@ -9,6 +9,7 @@ import { colors, spacing, radius } from '../theme/tokens';
 import { cleanReferenceLinks } from '../utils/formatters';
 import { StatusBadge } from '../components/Badge';
 import { EvidenceCard, ConflictCard, FollowupCard, TimelineCard } from '../components/ClinicalCards';
+import SkeletonDashboard from '../components/SkeletonLoader';
 
 // ─── CAS Signal Alert ───────────────────────────────────────────
 function CasAlert({ signals }) {
@@ -119,6 +120,7 @@ export default function DashboardScreen() {
   const [selectedCase, setSelectedCase] = useState('case_001');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [switching, setSwitching] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const runAnalysis = useCallback(async (isRefresh = false, caseIdOverride = null) => {
@@ -147,11 +149,13 @@ export default function DashboardScreen() {
     }
   }, [selectedCase]);
 
-  const handleCaseChange = (newCase) => {
+  const handleCaseChange = useCallback((newCase) => {
     if (newCase === selectedCase) return;
+    setSwitching(true);
     setSelectedCase(newCase);
     setData(null);
-  };
+    setTimeout(() => setSwitching(false), 400);
+  }, [selectedCase]);
 
   return (
     <View style={styles.root}>
@@ -224,7 +228,11 @@ export default function DashboardScreen() {
           )}
         </TouchableOpacity>
 
-        {!data && !loading && (
+        {(loading || switching) ? (
+          <View style={{ marginTop: 12 }}>
+            <SkeletonDashboard />
+          </View>
+        ) : !data ? (
           <View style={styles.emptyState}>
             <View style={styles.emptyIconWrap}>
               <Text style={styles.emptyIcon}>🏥</Text>
@@ -234,9 +242,7 @@ export default function DashboardScreen() {
               Yukarıdan vakayı seçip {"\n"} "Vakayı Analiz Et" butonuna basarak{'\n'}tüm klinik motorları çalıştırın.
             </Text>
           </View>
-        )}
-
-        {data && (
+        ) : (
           <>
             {/* Clinical Summary */}
             <View style={styles.summaryCard}>

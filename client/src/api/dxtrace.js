@@ -27,6 +27,21 @@ export async function generateLLM(forceHallucination = false) {
   return data;
 }
 
+export async function getFeedbackStats() {
+  const { data } = await api.get('/feedback/store/stats');
+  return data;
+}
+
+export async function getHallucinations() {
+  const { data } = await api.get('/feedback/store/hallucinations');
+  return data;
+}
+
+export async function getGoldenExamples() {
+  const { data } = await api.get('/feedback/store/golden-examples');
+  return data;
+}
+
 export async function getHealth() {
   const { data } = await api.get('/health');
   return data;

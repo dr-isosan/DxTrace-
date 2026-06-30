@@ -14,6 +14,7 @@ export default function ToolsScreen() {
   const [fbLoading, setFbLoading] = useState(false);
   const [llmLoading, setLlmLoading] = useState(false);
   const [llmResult, setLlmResult] = useState(null);
+  const [feedbackHistory, setFeedbackHistory] = useState([]);
 
   const handleFeedback = async (action) => {
     setFbLoading(true);
@@ -26,10 +27,21 @@ export default function ToolsScreen() {
         finalContent,
       });
       const labels = { APPROVE: 'Onaylandı ✓', EDIT: 'Düzenleme kaydedildi', REJECT: 'Reddedildi' };
+      
+      setFeedbackHistory(prev => [
+        ...prev,
+        {
+          action,
+          changeType: result.changeType,
+          timestamp: result.timestamp || new Date().toISOString(),
+          logId: result.logId,
+        },
+      ]);
+
       Toast.show({
         type: action === 'APPROVE' ? 'success' : action === 'EDIT' ? 'info' : 'error',
         text1: labels[action],
-        text2: `Log ID: ${result.logId}`,
+        text2: `Log ID: ${result.logId} • ${result.changeType}`,
         visibilityTime: 4000,
       });
     } catch (err) {
@@ -106,6 +118,34 @@ export default function ToolsScreen() {
           </TouchableOpacity>
         </View>
         {fbLoading && <ActivityIndicator size="small" color={colors.info} style={{ marginTop: 8 }} />}
+
+        {feedbackHistory.length > 0 && (
+          <View style={styles.historySection}>
+            <View style={styles.historyHeader}>
+              <Text style={styles.historyTitle}>⏳ Son Aksiyonlar</Text>
+              <View style={styles.historyCount}>
+                <Text style={styles.historyCountTxt}>{feedbackHistory.length}</Text>
+              </View>
+            </View>
+            <View style={styles.historyList}>
+              {feedbackHistory.slice(-5).reverse().map((h, i) => (
+                <View key={i} style={styles.historyRow}>
+                  <View style={[styles.historyBadge, styles[`history${h.action}`]]}>
+                    <Text style={[styles.historyBadgeTxt, styles[`historyTxt${h.action}`]]}>
+                      {h.action === 'APPROVE' ? '✓ Onay' : h.action === 'REJECT' ? '✗ Red' : '✏ Düz'}
+                    </Text>
+                  </View>
+                  <Text style={styles.historyType} numberOfLines={1}>
+                    {h.changeType}
+                  </Text>
+                  <Text style={styles.historyTime}>
+                    {new Date(h.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
       </View>
 
       {/* LLM */}
@@ -182,4 +222,22 @@ const styles = StyleSheet.create({
   llmStatus: { fontSize: 13, fontWeight: '700', marginBottom: 6 },
   llmText: { fontSize: 13, color: colors.textSecondary, lineHeight: 20 },
   llmMuted: { fontSize: 12, color: colors.textMuted, fontStyle: 'italic' },
+
+  historySection: { marginTop: 16, paddingTop: 12, borderTopWidth: 1, borderTopColor: colors.border, borderStyle: 'dashed' },
+  historyHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  historyTitle: { fontSize: 11, fontWeight: '700', color: colors.textMuted, textTransform: 'uppercase', letterSpacing: 0.5 },
+  historyCount: { marginLeft: 'auto', backgroundColor: colors.surface3, borderRadius: radius.full, paddingHorizontal: 6, paddingVertical: 2 },
+  historyCountTxt: { fontSize: 10, color: colors.textSecondary, fontWeight: '700' },
+  historyList: { gap: 6 },
+  historyRow: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.surface1, padding: 6, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.border },
+  historyBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: radius.full, borderWidth: 1 },
+  historyAPPROVE: { backgroundColor: colors.successBg, borderColor: colors.successBorder },
+  historyEDIT: { backgroundColor: colors.warningBg, borderColor: colors.warningBorder },
+  historyREJECT: { backgroundColor: colors.criticalBg, borderColor: colors.criticalBorder },
+  historyBadgeTxt: { fontSize: 10, fontWeight: '700' },
+  historyTxtAPPROVE: { color: colors.success },
+  historyTxtEDIT: { color: colors.warning },
+  historyTxtREJECT: { color: colors.critical },
+  historyType: { flex: 1, fontSize: 11, color: colors.textMuted, fontFamily: 'monospace' },
+  historyTime: { fontSize: 10, color: colors.textFaint, fontFamily: 'monospace' },
 });

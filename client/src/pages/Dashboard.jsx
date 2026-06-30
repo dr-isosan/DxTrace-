@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Hospital, Cpu, FlaskConical, ShieldCheck, Zap } from 'lucide-react';
 import { useDxTrace } from '../hooks/useDxTrace';
 import { useToast } from '../components/Toast/ToastProvider';
@@ -8,6 +8,7 @@ import Sidebar from '../components/Layout/Sidebar';
 import ClinicalSummary from '../components/Dashboard/ClinicalSummary';
 import CasSignalCard from '../components/Dashboard/CasSignalCard';
 import TabbedPanel from '../components/Dashboard/TabbedPanel';
+import SkeletonDashboard from '../components/Dashboard/SkeletonLoader';
 import styles from './Dashboard.module.css';
 
 function EmptyState() {
@@ -36,6 +37,8 @@ export default function Dashboard() {
   const { addToast } = useToast();
   const [apiOnline, setApiOnline] = useState(false);
   const [selectedCase, setSelectedCase] = useState('case_001');
+  // Vaka geçişi sırasında kısa bir skeleton penceresi açar
+  const [switching, setSwitching] = useState(false);
 
   useEffect(() => {
     getHealth()
@@ -51,10 +54,13 @@ export default function Dashboard() {
       });
   }, []);
 
-  const handleCaseChange = (newCaseId) => {
+  const handleCaseChange = useCallback((newCaseId) => {
+    setSwitching(true);
     setSelectedCase(newCaseId);
-    clearData(); // Clear old case data instantly
-  };
+    clearData();
+    // Geçiş animasyonu için kısa gecikme — çok hızlı geçişi engeller
+    setTimeout(() => setSwitching(false), 400);
+  }, [clearData]);
 
   const handleAnalyze = async (caseId) => {
     const targetCase = caseId || selectedCase;
@@ -90,7 +96,9 @@ export default function Dashboard() {
           />
 
           <main className={styles.main}>
-            {!data ? (
+            {(loading || switching) ? (
+              <SkeletonDashboard />
+            ) : !data ? (
               <EmptyState />
             ) : (
               <div className={styles.results}>
