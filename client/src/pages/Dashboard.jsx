@@ -59,7 +59,7 @@ export default function Dashboard() {
     setSelectedCase(newCaseId);
     clearData();
     // Geçiş animasyonu için kısa gecikme — çok hızlı geçişi engeller
-    setTimeout(() => setSwitching(false), 400);
+    setTimeout(() => setSwitching(false), 800);
   }, [clearData]);
 
   const handleAnalyze = async (caseId) => {

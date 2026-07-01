@@ -1,0 +1,19 @@
+[
+  {
+    "id": "fb_fa48f58c",
+    "timestamp": "2026-07-01T17:15:16.622Z",
+    "componentId": "cas_gi_01_output",
+    "action": "REJECT",
+    "doctorId": "doc_889",
+    "aiOutput": "AI ürettiği klinik özet metni",
+    "doctorRevision": "Doktorun onayladığı metin",
+    "isHallucination": true,
+    "changeType": "HALLUCINATION",
+    "context": {
+      "hadContradiction": false,
+      "missingDataCountAtExecution": 0,
+      "caseId": null,
+      "notes": null
+    }
+  }
+]

@@ -5,6 +5,7 @@ import {
 import { useToast } from '../Toast/ToastProvider';
 import { submitFeedback, generateLLM } from '../../api/dxtrace';
 import styles from './Sidebar.module.css';
+import skStyles from '../Dashboard/SkeletonLoader.module.css';
 
 const MODULE_ICONS = {
   confidenceScorer:    <Cpu size={13} />,
@@ -108,7 +109,10 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
     setLlmLoading(true);
     setLlmData(null);
     try {
-      const data = await generateLLM();
+      const [data] = await Promise.all([
+        generateLLM(),
+        new Promise(resolve => setTimeout(resolve, 1000)) // Animasyon görünsün diye minimum 1sn bekle
+      ]);
       setLlmData(data);
       addToast({
         type: data.passed ? 'success' : 'warning',
@@ -253,7 +257,15 @@ export default function Sidebar({ onAnalyze, loading, moduleStatus, analysisData
             <><Bot size={15} /> {llmData ? 'Tekrar Üret' : 'Özet Üret'}</>
           )}
         </button>
-        {llmData && (
+        {llmLoading && (
+          <div className={skStyles.wrapper} style={{ marginTop: '12px', padding: '10px', background: 'var(--surface-1)', borderRadius: 'var(--radius-md)' }}>
+            <div className={skStyles.skBar} style={{ width: '40%', height: '14px', marginBottom: '4px' }} />
+            <div className={skStyles.skBar} style={{ width: '100%', height: '12px' }} />
+            <div className={skStyles.skBar} style={{ width: '85%', height: '12px' }} />
+            <div className={skStyles.skBar} style={{ width: '60%', height: '12px' }} />
+          </div>
+        )}
+        {llmData && !llmLoading && (
           <div className={`${styles.llmResult} ${llmData.passed ? styles.llmPassed : styles.llmFailed}`}>
             <div className={styles.llmStatus}>
               {llmData.passed ? <CheckCircle size={14} /> : <XCircle size={14} />}

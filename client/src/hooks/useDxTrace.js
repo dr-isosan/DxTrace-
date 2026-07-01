@@ -29,7 +29,12 @@ export function useDxTrace() {
     setLoading(true);
     clearData();
     try {
-      const result = await analyzeCase(caseId);
+      // API çok hızlı dönse bile animasyonu göstermek için minimum 800ms bekleme ekliyoruz.
+      const [result] = await Promise.all([
+        analyzeCase(caseId),
+        new Promise(resolve => setTimeout(resolve, 800))
+      ]);
+      
       setData(result);
       setModuleStatus({
         confidenceScorer:    (result.evidence?.length || 0) > 0,
@@ -47,7 +52,7 @@ export function useDxTrace() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [clearData]);
 
   return { loading, data, error, moduleStatus, analyze, clearData };
 }
